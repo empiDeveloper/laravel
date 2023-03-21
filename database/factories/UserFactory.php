@@ -14,7 +14,7 @@ class UserFactory extends Factory
      */
     public function definition()
     {
-        $fileName = $this->faker->numberBetween(1,10). '.jpg';
+        $fileName = $this->faker->numberBetween(1,7). '.jpg';
 
         return [
             'state' => $this->faker->randomElement([1,0]),

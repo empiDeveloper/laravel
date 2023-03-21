@@ -1,32 +1,25 @@
 <template>
     <div class="container py-4 px-3 mx-auto">
-      <h1>Hello, Bootstrap and Webpack is free!</h1>
-        <table class="table table-hover table-style">
-            <thead>
-                <tr class="text-center">
-                    <th>#</th>
-                    <th>Nombre completo</th>
-                    <th>Edad</th>
-                    <th>Genero</th>
-                    <th>Pais</th>
-                    <th>Comunidad</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(user, index) in users" :key="index">
-                    <th class="text-center">{{ user.id }}</th>
-                    <td>{{ user.name }}</td>
-                    <td class="text-center">25</td>
-                    <td class="text-center">Masculino</td>
-                    <td class="text-center">Colombia</td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="row">
-            <div class="col" />
-            <div class="col-3">
-                <button class="btn btn-secondary btn-sm btn-lg ml-auto" @click="seeMore(10)">Ver más 10</button>
-                <button class="btn btn-secondary btn-sm btn-lg ml-2" @click="seeMore(100)">Ver más 100</button>
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <button class="nav-link text-black active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Usuarios</button>
+                <button class="nav-link text-black" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Publicaciones</button>
+                <button class="nav-link text-black" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Vendidos</button>
+                <button class="nav-link text-black" id="nav-disabled-tab" data-bs-toggle="tab" data-bs-target="#nav-disabled" type="button" role="tab" aria-controls="nav-disabled" aria-selected="false" disabled>En venta</button>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+                <users />
+            </div>
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+                <posts />
+            </div>
+            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">
+                Otro
+            </div>
+            <div class="tab-pane fade" id="nav-disabled" role="tabpanel" aria-labelledby="nav-disabled-tab" tabindex="0">
+                Otro
             </div>
         </div>
     </div>
@@ -34,50 +27,6 @@
 
 <script setup>
 // imports
-import { ref, onMounted } from 'vue';
-
-// reactive state
-const loading = ref(false);
-const users = ref([]);
-const page = ref(0);
-const limit = ref(20);
-
-// lifecycle hooks
-onMounted(() => {
-  getUsers();
-})
-
-// functions
-async function getUsers() {
-    if(loading.value) return;
-
-    loading.value = true;
-    const params = {
-        page: page.value,
-        skip:  users.value.length,
-        limit: limit.value
-    };
-    axios
-    .get('api/users/listar', { params })
-    .then(response => {
-        users.value = users.value.concat(response.data.result);
-        //page.value = response.data.result.current_page;
-    })
-    .catch(error => {
-        console.log(error);
-    })
-    .finally(() => loading.value = false);
-}
-
-async function seeMore(value) {
-    limit.value = value;
-    page.value = page.value + 1;
-    getUsers();
-}
+import users from './pages/users.vue';
+import posts from './pages/posts.vue';
 </script>
-
-<style>
-.style-table {
-    background-color: #F5EEF8;
-}
-</style>
