@@ -35,7 +35,7 @@
 <script setup>
 // imports
 import { ref, onMounted } from 'vue';
-import * as Service from '../services/index.js';
+import * as Service from '../../services/index.js';
 
 // data
 const loading = ref(false);

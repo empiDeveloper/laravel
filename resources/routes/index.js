@@ -1,18 +1,21 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Users from '../components/pages/users.vue';
-import Posts from '../components/pages/posts.vue';
 
 const routes = [
     {
         path: '/users',
         name: 'users',
-        component: Users
+        component: () => import('../components/pages/users/users.vue'),
     },
     {
         path: '/posts',
         name: 'posts',
-        component: Posts
+        component: () => import('../components/pages/publications/posts.vue'),
     },
+    {
+        path: '/posts/:idPost/detail',
+        name: 'posts.detail',
+        component: () => import('../components/pages/publications/postsDetail.vue'),
+    }
 ]
 
 const router = createRouter({

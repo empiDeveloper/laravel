@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\Publications\PostsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::controller(UserController::class)->prefix("users")->group(function(){
     Route::get('listar', 'getUsers')->name('users.listar');
+});
+
+Route::controller(PostsController::class)->prefix("publicaciones")->group(function(){
+    Route::get('listar', 'getPublications')->name('publicaciones.listar');
 });
 
 
