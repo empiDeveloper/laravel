@@ -15,16 +15,10 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->integer('state');
-            $table->unsignedBigInteger('type_id');
-            $table->string('name', 50);
-            $table->string('email', 255);
-            $table->string('phone', 20);
-            $table->string('image', 255)->nullable();
-            $table->unsignedBigInteger('citie_id')->nullable();
-            $table->string('password');
-            $table->foreign('type_id')->references('id')->on('users_types');
-            $table->foreign('citie_id')->references('id')->on('cities');
+            $table->tinyInteger('state')->comment('1: Activo - 0: Inactivo');
+            $table->tinyInteger('type')->default(2)->comment('1: Administrador - 2: Vendedor');
+            $table->string('name', 20);
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
