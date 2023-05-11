@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->tinyInteger('state')->comment('1: Activo - 0: Inactivo');
             $table->tinyInteger('type')->default(2)->comment('1: Administrador - 2: Vendedor');
-            $table->string('name', 20);
+            $table->string('name', 50);
             $table->string('image')->nullable();
             $table->timestamps();
         });

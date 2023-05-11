@@ -17,7 +17,8 @@ class CreateStoresTable extends Migration
             $table->id();
             $table->tinyInteger('state')->default('1')->comment('1: Activo - 0: Inactivo');
             $table->string('name', 20);
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
         });
     }
 

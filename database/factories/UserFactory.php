@@ -17,14 +17,10 @@ class UserFactory extends Factory
         $fileName = $this->faker->numberBetween(1,7). '.jpg';
 
         return [
-            'state' => $this->faker->randomElement([1,0]),
-            'type_id' => $this->faker->randomElement([1,2,3,4,5]),
-            'name' => $this->faker->name(50),
-            'email' => $this->faker->unique()->safeEmail,
-            'phone' => $this->faker->unique()->phoneNumber,
+            'state' => $this->faker->randomElement([0,1]),
+            'type' => 2,
+            'name' => $this->faker->firstName." ".$this->faker->lastName,
             'image' => "img/users/{$fileName}",
-            'citie_id' => $this->faker->randomNumber(1,200),
-            'password' => bcrypt("123123")
         ];
     }
 }
