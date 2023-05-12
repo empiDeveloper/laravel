@@ -2,9 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\Sale;
 use App\Models\User;
 use App\Models\Store;
+use App\Models\Product;
 use App\Models\Category;
+use App\Models\StoreProduct;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -27,6 +30,8 @@ class DatabaseSeeder extends Seeder
         ]);
         */
         // Run factories
+        User::factory(1000)->create();
+
         Category::insert([
             ['state' => 1, 'name' => 'Tecnología'],
             ['state' => 1, 'name' => 'Accesorios'],
@@ -40,8 +45,6 @@ class DatabaseSeeder extends Seeder
             ['state' => 1, 'name' => 'Salud'],
             ['state' => 1, 'name' => 'Otros'],
         ]);
-
-        User::factory(1000)->create();
 
         Store::insert([
             ['state' => 1, 'name' => 'Alkomprar'],
@@ -61,5 +64,41 @@ class DatabaseSeeder extends Seeder
             ['state' => 1, 'name' => 'Avenida 27'],
             ['state' => 1, 'name' => 'Belleza Total'],
         ]);
+
+        Product::factory(2500)->create();
+
+        $stores = Store::pluck('id');
+        $products = Product::select('id', 'price')->get();
+        $insertStoreProducts = collect([]);
+
+        foreach ($stores as $index => $store) {
+            for ($i = 0; $i < 2; $i++) {
+                $productsStore = $insertStoreProducts->where('idStore', $store)->pluck('idProduct');
+                $product = $products->whereNotIn('id', $productsStore)->pluck('id')->random();
+                $insertStoreProducts[] = [
+                    'state' => 1,
+                    'idStore' => $store,
+                    'idProduct' => $product,
+                ];
+            }
+        }
+        StoreProduct::insert($insertStoreProducts->shuffle()->values()->toArray());
+
+        $users = User::whereType(2)->whereState(1)->pluck('id');
+        $storeProducts = StoreProduct::select('id', 'idProduct')->where('state', 1)->get();
+        $insertSales = collect([]);
+
+        for ($i = 0; $i < 2; $i++) {
+            $idStoreProduct = $storeProducts->pluck('id')->random();
+            $storeProduct = $storeProducts->where('id', $idStoreProduct)->first();
+
+            $insertSales[] = [
+                'idStoreProduct' => $storeProduct->id,
+                'price' => $products->where('id', $storeProduct->idProduct)->first()->price,
+                'idUser' => $users->random(),
+            ];
+        }
+
+        Sale::insert($insertSales->toArray());
     }
 }

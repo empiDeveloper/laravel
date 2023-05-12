@@ -18,9 +18,11 @@ class CreateStoresProductsTable extends Migration
             $table->tinyInteger('state')->default('1')->comment('1: Activo - 0: Inactivo');
             $table->unsignedBigInteger('idStore');
             $table->unsignedBigInteger('idProduct');
+            $table->unique(['idStore', 'idProduct']);
             $table->foreign('idStore')->references('id')->on('stores');
             $table->foreign('idProduct')->references('id')->on('products');
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
         });
     }
 

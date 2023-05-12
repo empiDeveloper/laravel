@@ -17,8 +17,8 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->tinyInteger('state')->default('1')->comment('1: Activo - 0: Inactivo');
             $table->unsignedBigInteger('idCategory');
-            $table->string('name', 20);
-            $table->string('image');
+            $table->string('name', 50);
+            $table->string('image')->nullable();
             $table->integer('price');
             $table->foreign('idCategory')->references('id')->on('categories');
             $table->timestamps();
