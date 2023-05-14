@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Others\GeneralController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -26,6 +27,12 @@ Route::controller(UserController::class)->prefix("users")->group(function(){
 
 Route::controller(PostsController::class)->prefix("publicaciones")->group(function(){
     Route::get('listar', 'getPublications')->name('publicaciones.listar');
+});
+
+
+
+Route::controller(GeneralController::class)->prefix("general")->group(function(){
+    Route::get('statistics', 'getGeneralStatistics')->name('general.statistics');
 });
 
 
