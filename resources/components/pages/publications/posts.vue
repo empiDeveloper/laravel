@@ -48,7 +48,7 @@
 // imports
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { currencyFormat } from '../../../../src/util/currencyFormat';
+import { numberFormat } from '../../../../src/util/formats';
 import { dateFormat } from '../../../../src/util/dateFormat';
 import { delay } from '../../../../src/util/delay';
 import * as Service from '../../services/posts';

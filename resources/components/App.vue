@@ -1,6 +1,6 @@
 <template>
-    <!-- Menús -->
-    <nav class="navbar navbar-expand-lg">
+    <!-- Menú -->
+    <nav class="navbar navbar-expand-lg navbarStyle">
         <div class="container-fluid">
             <a class="navbar-brand text-general">
                 <router-link class="nav-link active" to="/">Manager Dev</router-link>
@@ -8,46 +8,49 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item ml-2">
-                        <small>Productos vendidos:</small><small class="text-general ml-2">{{ statistics.countProducts }}</small>
+                        <small>Productos vendidos:</small><small class="text-general ml-2">{{ numberFormat(statistics.countProducts) }}</small>
                     </li>
                     <li class="nav-item ml-2">
-                        <small>Valor en ventas:</small><small class="text-general ml-2">{{ statistics.soldProducts }}</small>
+                        <small>Total ventas:</small><small class="text-general ml-2">{{ currencyFormat(statistics.soldProducts) }}</small>
                     </li>
                     <li class="nav-item ml-2">
-                        <small>Mejor vendedor:</small><small class="text-general ml-2">{{ statistics.bestSeller }}</small>
+                        <small>Stock:</small><small class="text-general ml-2">{{ numberFormat(statistics.countStock) }}</small>
                     </li>
                     <li class="nav-item ml-2">
-                        <small>Mejor estrategia:</small><small class="text-general ml-2">{{ statistics.bestStrategy }}</small>
+                        <small>Vendedores activos:</small><small class="text-general ml-2">{{ numberFormat(statistics.countSellers) }}</small>
+                    </li>
+                    <li class="nav-item ml-2">
+                        <small>TRM COP:</small><small class="text-general ml-2">{{ currencyFormat(statistics.dollarTRM) }}</small>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
     <!-- Sections -->
-    <Statistics />
-    <!--
-    <div class="row">
-        <div class="col-12">
-            <Graphics :options="options" />
-        </div>
-    </div>
-    -->
-    <router-view />
+    <section>
+        <Statistics />
+    </section>
+    <hr />
+    <section>
+        <GraphicsLastYears />
+    </section>
 </template>
 
 <script setup>
 // imports
 import { ref, onMounted } from 'vue';
+import { currencyFormat, numberFormat } from '../../src/util/formats';
 import Statistics from './pages/statistics';
-//import Graphics from './pages/graphics';
+import GraphicsLastYears from './pages/statistics/graphicsLastYears.vue';
 import * as Service from './services/general';
 
 // Data
 const statistics = ref({
-    countProducts: null,
-    soldProducts: null,
-    bestStrategy: null,
-    bestSeller: null,
+    countProducts: 0,
+    soldProducts: 0,
+    countStock: 0,
+    countSellers: 0,
+    dollarTRM: 0,
 });
 
 // Lifecycle
@@ -59,45 +62,11 @@ onMounted(() => {
 async function getData(){
     try {
         const { data } = await Service.getGeneralStatistics();
-        statistics.value = data.response;
+        if (data.data) statistics.value = data.data;
     } catch(error){
         console.error(error);
     }
 }
-
-
-
-/*
-const options = ref({
-    tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-            type: 'shadow'
-        }
-    },
-    xAxis: {
-        type: 'category',
-        data: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo'],
-        axisTick: {
-            alignWithLabel: true
-        }
-    },
-    yAxis: {
-        type: 'value'
-    },
-    series: [
-        {
-            name: "Direct",
-            data: [456000, 523780, 679800, 567800, 1050000],
-            type: 'bar',
-            showBackground: true,
-            backgroundStyle: {
-                color: 'rgba(180, 180, 180, 0.2)'
-            }
-        }
-    ]
-});
-*/
 </script>
 
 <style>
@@ -122,4 +91,10 @@ const options = ref({
 .bg-navbar {
     background-color: #FF8383;
 }
+
+.navbarStyle {
+    border-bottom: 1px solid #000;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3)
+}
+
 </style>

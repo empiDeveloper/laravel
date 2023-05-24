@@ -1,64 +1,36 @@
 <template>
     <div class="container">
-        <div class="row mt-3">
-            <div class="col-3">
-                <div class="card bg-gray" style="width: 15rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">Ventas del mes</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">$253.000.000</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="card bg-gray" style="width: 15rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">Objetivo del mes</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">61% Completado</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="card bg-gray" style="width: 15rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">Ventas del último mes</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">$645.750.000</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="card bg-gray" style="width: 15rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">Ventas del año</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">$2.346.000.000</h6>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <Cards />
         <hr />
         <div class="row mt-5">
             <div class="col">
-                <h5>Estadísticas de tus vendedores</h5>
+                <h5>Vendedores, Top 10</h5>
+            </div>
+            <div class="col d-flex">
+                <button type="button" class="btn btn-primary btn-sm ml-3" @click="goFilter('sales')">Filtar por más ventas</button>
+                <button type="button" class="btn btn-primary btn-sm ml-3" @click="goFilter('products')">Filtrar por más productos vendidos</button>
             </div>
         </div>
         <div class="row mt-3">
             <div class="col">
                 <table class="table table-striped table-sm" style="border-radius: 10px;">
                     <thead>
-                        <tr style="background-color: #FFD906;">
+                        <tr class="colmnas-table">
                             <th scope="col">#</th>
                             <th scope="col">Nombre</th>
-                            <th scope="col">Productos Vendidos</th>
-                            <th scope="col">Cantidad vendida</th>
-                            <th scope="col">Mejor estrategia</th>
+                            <th scope="col">Productos vendidos</th>
+                            <th scope="col">Total ventas</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Daniel Oyola</td>
-                            <td>467</td>
-                            <td>$253.000.000 COP</td>
-                            <td>Catalogo</td>
+                        <tr v-for="(seller, index) in sellers" :key="index">
+                            <th class="text-center" width="5%">{{ index + 1 }}</th>
+                            <td>
+                                <img :src="seller.image" class="image-user" />
+                                {{ seller.name }}
+                            </td>
+                            <td class="text-center" width="15%">{{ numberFormat(seller.countProducts) }}</td>
+                            <td class="text-center" width="15%">{{ currencyFormat(seller.countSales) }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -66,9 +38,52 @@
         </div>
     </div>
 </template>
+<script setup>
+// imports
+import { ref, onMounted } from 'vue';
+import { currencyFormat, numberFormat } from '../../../../src/util/formats';
+import * as Service from '../../services/sellers';
+import Cards from './cards.vue';
 
+// Data
+const sellers = ref([]);
+const filter = ref('sales');
+
+// Lifecycle
+onMounted(() => {
+    getData();
+});
+
+// Functions
+async function getData(){
+    try {
+        const params = { filter: filter.value };
+        const { data } = await Service.getSellers(params);
+        if (data.data) sellers.value = data.data;
+    } catch(error){
+        console.error(error);
+    }
+}
+
+async function goFilter(option) {
+    filter.value = option;
+    getData();
+}
+</script>
 <style>
 .bg-gray {
     background-color: #F8F8F8 !important;
+}
+
+.colmnas-table {
+    background-color: #FFD906;
+    text-align: center;
+}
+
+.image-user {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover
 }
 </style>

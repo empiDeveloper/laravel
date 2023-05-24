@@ -13,7 +13,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.mjs");
-/* harmony import */ var _src_util_currencyFormat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../src/util/currencyFormat */ "./src/util/currencyFormat.js");
+/* harmony import */ var _src_util_formats__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../src/util/formats */ "./src/util/formats.js");
 /* harmony import */ var _src_util_dateFormat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../src/util/dateFormat */ "./src/util/dateFormat.js");
 /* harmony import */ var _src_util_delay__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../src/util/delay */ "./src/util/delay.js");
 /* harmony import */ var _services_posts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/posts */ "./resources/components/services/posts.js");
@@ -153,8 +153,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       get useRouter() {
         return vue_router__WEBPACK_IMPORTED_MODULE_5__.useRouter;
       },
-      get currencyFormat() {
-        return _src_util_currencyFormat__WEBPACK_IMPORTED_MODULE_1__.currencyFormat;
+      get numberFormat() {
+        return _src_util_formats__WEBPACK_IMPORTED_MODULE_1__.numberFormat;
       },
       get dateFormat() {
         return _src_util_dateFormat__WEBPACK_IMPORTED_MODULE_2__.dateFormat;
@@ -255,7 +255,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: function onClick($event) {
         return $setup.goDetailPost(item.id);
       }
-    }, [_hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currencyFormat(item.price)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.city) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.stateCity), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.dateFormat(item.created_at, 'DD [de] MMM YYYY')), 1 /* TEXT */)])])])], 10 /* CLASS, PROPS */, _hoisted_6)]);
+    }, [_hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currencyFormat(item.price)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.city) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.stateCity), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.dateFormat(item.created_at, 'DD [de] MMM YYYY')), 1 /* TEXT */)])])])], 10 /* CLASS, PROPS */, _hoisted_6)]);
   }), 128 /* KEYED_FRAGMENT */))]), _hoisted_15]);
 }
 
@@ -298,27 +298,6 @@ function _getData() {
     }, _callee);
   }));
   return _getData.apply(this, arguments);
-}
-
-/***/ }),
-
-/***/ "./src/util/currencyFormat.js":
-/*!************************************!*\
-  !*** ./src/util/currencyFormat.js ***!
-  \************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "currencyFormat": () => (/* binding */ currencyFormat)
-/* harmony export */ });
-function currencyFormat(value) {
-  if (!value && typeof value !== 'number') return null;
-  return new Intl.NumberFormat('es-CO', {
-    style: 'currency',
-    currency: 'COP'
-  }).format(value).replace(/\D00$/, '');
 }
 
 /***/ }),

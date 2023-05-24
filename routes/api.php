@@ -1,10 +1,13 @@
 <?php
 
-use App\Http\Controllers\Others\GeneralController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Others\GeneralController;
+use App\Http\Controllers\Sellers\SellerController;
+use App\Http\Controllers\Statistics\CardsController;
 use App\Http\Controllers\Publications\PostsController;
+use App\Http\Controllers\Statistics\GraphicsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,18 +24,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::controller(UserController::class)->prefix("users")->group(function(){
-    Route::get('listar', 'getUsers')->name('users.listar');
-});
-
-Route::controller(PostsController::class)->prefix("publicaciones")->group(function(){
-    Route::get('listar', 'getPublications')->name('publicaciones.listar');
-});
-
-
-
 Route::controller(GeneralController::class)->prefix("general")->group(function(){
     Route::get('statistics', 'getGeneralStatistics')->name('general.statistics');
 });
 
+Route::controller(SellerController::class)->prefix("sellers")->group(function(){
+    Route::get('/', 'getSellers')->name('sellers.list');
+});
 
+Route::controller(CardsController::class)->prefix("cards")->group(function(){
+    Route::get('/', 'getDataCards')->name('cards.list');
+});
+
+Route::controller(GraphicsController::class)->prefix("graphics")->group(function(){
+    Route::get('/last-years', 'getGraphicsLastYears')->name('graphics.last-years');
+});
