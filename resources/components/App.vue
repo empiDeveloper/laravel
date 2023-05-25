@@ -34,6 +34,10 @@
     <section>
         <GraphicsLastYears />
     </section>
+    <hr />
+    <section>
+        <GraphicCatalog />
+    </section>
 </template>
 
 <script setup>
@@ -42,6 +46,7 @@ import { ref, onMounted } from 'vue';
 import { currencyFormat, numberFormat } from '../../src/util/formats';
 import Statistics from './pages/statistics';
 import GraphicsLastYears from './pages/statistics/graphicsLastYears.vue';
+import GraphicCatalog from './pages/statistics/graphicCatalog.vue';
 import * as Service from './services/general';
 
 // Data

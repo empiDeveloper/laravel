@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h5>Estadísticas de los últimos años</h5>
+                <h5>Estadísticas de ventas en los últimos años</h5>
             </div>
         </div>
         <div class="row">
@@ -16,11 +16,16 @@
 <script setup>
 // Imports
 import { ref, onMounted } from 'vue';
+import { currencyFormat } from '../../../../src/util/formats';
 import * as Service from '../../services/graphics';
 import Graphics from '../graphics';
 
 // Data
 const options = ref({
+    title: {
+        text: "",
+        right: 10
+    },
     tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -29,7 +34,7 @@ const options = ref({
     },
     xAxis: {
         type: 'category',
-        data: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo'],
+        data: [],
         axisTick: {
             alignWithLabel: true
         }
@@ -39,8 +44,8 @@ const options = ref({
     },
     series: [
         {
-            name: "Direct",
-            data: [456000, 523780, 679800, 567800, 1050000],
+            name: "Ventas:",
+            data: [],
             type: 'bar',
             showBackground: true,
             backgroundStyle: {
@@ -59,10 +64,20 @@ onMounted(() => {
 async function getData(){
     try {
         const { data } = await Service.getGraphicsLastYears();
-        if (data.data) console.log(data.data);
+        if (data.data) await mountGraph(data.data);
     } catch(error){
         console.error(error);
     }
+}
+
+async function mountGraph(data) {
+    if (data.length < 1) return;
+    const dataAxis = data.map((el) => { return el.year });
+    const dataSeries = data.map((el) => { return el.amount });
+
+    options.value.title.text = "Ventas totales: "+currencyFormat(dataSeries.reduce((a , value) => a + value));
+    options.value.xAxis.data = dataAxis;
+    options.value.series[0].data = dataSeries;
 }
 </script>
 

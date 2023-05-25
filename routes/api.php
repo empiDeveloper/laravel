@@ -38,4 +38,5 @@ Route::controller(CardsController::class)->prefix("cards")->group(function(){
 
 Route::controller(GraphicsController::class)->prefix("graphics")->group(function(){
     Route::get('/last-years', 'getGraphicsLastYears')->name('graphics.last-years');
+    Route::get('/catalog', 'getGraphicCatalog')->name('graphics.catalog');
 });
