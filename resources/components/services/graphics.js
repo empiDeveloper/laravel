@@ -9,3 +9,7 @@ export async function getGraphicsLastYears(){
 export function getGraphicCatalog(){
     return axios.get(`${API}/catalog`);
 }
+
+export function getGraphicStores() {
+    return axios.get(`${API}/stores`);
+}

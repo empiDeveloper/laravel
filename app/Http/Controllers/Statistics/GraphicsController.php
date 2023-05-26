@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Statistics;
 use App\Models\Sale;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Store;
 
 class GraphicsController extends Controller
 {
@@ -59,6 +60,43 @@ class GraphicsController extends Controller
                 default:
                     return 'No identificada';
             }
+        } catch(\Exception $e) {
+            throw $e;
+        }
+    }
+
+    public function getGraphicStores()
+    {
+        try {
+            $response = Store::select('id', 'state', 'name')
+            ->selectRaw("(
+                SELECT
+                    SUM(s.price)
+                FROM
+                    stores_products sp
+                INNER JOIN
+                    sales s
+                ON
+                    sp.id = s.idStoreProduct
+                WHERE
+                    sp.idStore = stores.id
+            ) AS totalSales")
+            ->selectRaw("(
+                SELECT
+                    COUNT(s.id)
+                FROM
+                    stores_products sp
+                INNER JOIN
+                    sales s
+                ON
+                    sp.id = s.idStoreProduct
+                WHERE
+                    sp.idStore = stores.id
+            ) AS countProducts")
+            ->orderBy('totalSales', 'DESC')
+            ->get();
+
+            return response()->json(['message' => 'Consultado correctamente', 'data' => $response]);
         } catch(\Exception $e) {
             throw $e;
         }

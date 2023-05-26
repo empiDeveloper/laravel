@@ -38,6 +38,10 @@
     <section>
         <GraphicCatalog />
     </section>
+    <hr />
+    <section>
+        <GraphicStores />
+    </section>
 </template>
 
 <script setup>
@@ -47,6 +51,7 @@ import { currencyFormat, numberFormat } from '../../src/util/formats';
 import Statistics from './pages/statistics';
 import GraphicsLastYears from './pages/statistics/graphicsLastYears.vue';
 import GraphicCatalog from './pages/statistics/graphicCatalog.vue';
+import GraphicStores from './pages/statistics/graphicStores.vue';
 import * as Service from './services/general';
 
 // Data
